@@ -26,9 +26,12 @@ def train_network():
     train(model, network_input, network_output)
 
 def get_notes():
-    """ Get all the notes and chords from the midi files in the ./midi_songs directory """
+    """ Get all the notes and chords from the MIDI files in the ./midi_songs directory """
     notes = []
-
+    
+    # Iterate all MIDI files using:
+    # glob.glob(*pathname*)
+    # Return a list of path names that match *pathname*.
     for file in glob.glob("midi_songs/*.mid"):
         midi = converter.parse(file)
 
