@@ -37,17 +37,17 @@ def get_notes():
 
         notes_to_parse = None
 
-        parts = instrument.partitionByInstrument(midi)
+        tracks = instrument.partitionByInstrument(midi)
 
-        if parts: # file has instrument parts
-            notes_to_parse = parts.parts[0].recurse()
-        else: # file has notes in a flat structure
+        if parts:    # File has several instrument tracks.
+            notes_to_parse = tracks.parts[0].recurse()    # Extract the 1st track (supposedly the melody).
+        else:    # File has a single track.
             notes_to_parse = midi.flat.notes
 
         for element in notes_to_parse:
             if isinstance(element, note.Note):
                 notes.append(str(element.pitch))
-            elif isinstance(element, chord.Chord):
+            elif isinstance(element, chord.Chord):    # Code the chords like "note1.note2.etc"
                 notes.append('.'.join(str(n) for n in element.normalOrder))
 
     with open('data/notes', 'wb') as filepath:
